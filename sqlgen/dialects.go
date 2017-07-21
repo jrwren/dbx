@@ -46,3 +46,11 @@ type sqlite3 struct{}
 func (s sqlite3) Rebind(sql string) string {
 	return sql
 }
+
+// this type is specially named to match up with the name returned by the
+// dialect impl in the sql package.
+type spanner struct{}
+
+func (s spanner) Rebind(sql string) string {
+	return sql
+}

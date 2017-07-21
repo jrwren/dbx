@@ -1,0 +1,23 @@
+{{- define "import" }}
+	"cloud.google.com/go/spanner"
+	"google.golang.org/grpc/codes"
+{{ end -}}
+
+{{- define "is-constraint-error" }}
+func (impl {{ .Receiver }}) isConstraintError(err error) (
+	constraint string, ok bool) {
+	// TODO enumerate all the errors?
+	if e, ok := err.(*spanner.Error); ok {
+			if e.Code == codes.OutOfRange {
+				return e.Code.String(), true
+			}
+	}
+	return "", false
+}
+{{ end -}}
+
+{{- define "open" }}
+func openspanner(source string) (*sql.DB, error) {
+	return sql.Open("spanner", source)
+}
+{{ end -}}
